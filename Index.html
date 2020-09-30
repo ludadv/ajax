@@ -9,39 +9,59 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 </head>
 <body>
-    <button>Кнопка</button>
 
-    <div class="block">
+<div class="block">
+</div>
 
-    </div>
+<div class="post">
+    <div class="title"></div>
+    <div class="body"></div>
+</div>
 
-    <style>
-        .block {
-            margin: 0 auto;
-            width: 800px;
-            min-height: 200px;
-            background-color: rgba(216, 199, 199,  .3);
+<style>
+    .block {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        width: 500px;
+        min-height: 200px;
+        background-color: rgba(216, 199, 199,  .3);
+        text-align: center;
+        padding: 20px 10px;
+    }
+    .title {
+        text-transform: uppercase;
+        padding: 10px;
+    }
+    .body {
+        border-bottom: 1px solid black;
+        padding-bottom: 20px;
+    }
+
+</style>
+
+<script>
+    $.ajax({
+        url: "https://jsonplaceholder.typicode.com/posts",
+    }).done(function(data) {
+
+        for (var key in data) {
+            let title ='<div class="title">' +data[key].title + '</div>';
+            let body ='<div class="body">' +data[key].body + '</div>';
+            $('.block').append(title);
+            $('.block').append(body);
+
         }
-    </style>
 
-    <script>
-        $( "button" ).on( "click", function() {
-            $.ajax({
-                url: "https://jsonplaceholder.typicode.com/posts",
-            }).done(function(data) {
-                // console.log(data);
-                var title = data[0].title;
-                var body = data[0].body;
-                var post = '<div class="post">\n' +
-                    '            <div class="post__title">' + title + '</div>\n' +
-                    '            <div class="post__body">' + body + '</div>\n' +
-                    '        </div>';
-                console.log(title);
-                console.log(body);
-                $('.block').append(post);
-            });
-        });
-    </script>
+    });
+    $.ajax({
+        url: "https://jsonplaceholder.typicode.com/comments",
+    }).done(function(number) {
+        $comment_id = get_comment_ID();
+
+
+    });
+</script>
 
 </body>
 
