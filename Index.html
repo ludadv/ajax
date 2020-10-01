@@ -13,10 +13,10 @@
 <div class="block">
 </div>
 
-<div class="post">
-    <div class="title"></div>
-    <div class="body"></div>
-</div>
+<!--<div class="post">-->
+<!--    <div class="title"></div>-->
+<!--    <div class="body"></div>-->
+<!--</div>-->
 
 <style>
     .block {
@@ -41,26 +41,45 @@
 </style>
 
 <script>
+    var user = [];
+    var comments = [];
+
     $.ajax({
         url: "https://jsonplaceholder.typicode.com/posts",
     }).done(function(data) {
-
-        for (var key in data) {
-            let title ='<div class="title">' +data[key].title + '</div>';
-            let body ='<div class="body">' +data[key].body + '</div>';
-            $('.block').append(title);
-            $('.block').append(body);
-
-        }
-
+        user = data
+        console.log(user[3]);
     });
+
     $.ajax({
-        url: "https://jsonplaceholder.typicode.com/comments",
-    }).done(function(number) {
-        $comment_id = get_comment_ID();
+        url: "//jsonplaceholder.typicode.com/comments",
+    }).done(function(data) {
+        comments = data;
+        for (let key in comments) {
+            let title ='<div class="title">' + comments[key] + '</div>';
+            $('.block').append(title);
+        }
+    })
 
 
-    });
+
+    // comments.forEach(function(item, i) {
+    //     let title ='<div class="title">'+ i + item + '</div>';
+    //     $('.block').append(title);
+    // });
+
+
+        // for (let key in user) {
+        //     // let title ='<div class="title">' + user[key] + '</div>';
+        //     // let body ='<div class="body">' + user [key] + '</div>';
+        //     // $('.block').append(title);
+        //     // $('.block').append(body);
+        //     console.log(user[key]);
+        // }
+    // user.forEach(function(item, i, user) {
+    //     let title ='<div class="title">' + item + '</div>';
+    //     $('.block').append(title);
+    // });
 </script>
 
 </body>
