@@ -25,7 +25,7 @@
         margin: 0 auto;
         width: 500px;
         min-height: 200px;
-        background-color: rgba(216, 199, 199,  .3);
+        background-color: #fff;
         text-align: center;
         padding: 20px 10px;
     }
@@ -34,13 +34,14 @@
         padding: 10px;
     }
     .body {
-        border-bottom: 1px solid black;
         padding-bottom: 20px;
     }
     .comment {
         width: 100%;
-        height: 50px;
-        background-color: #00fecc;
+        min-height: 50px;
+        border-radius: 5px;
+        background-color: #a0a4a3;
+        margin-bottom: 10px;
     }
 
 </style>
@@ -57,18 +58,18 @@
     });
 
     function showPostsAndComments(posts, comments) {
-        posts.forEach(function(post) {
-            console.log(posts);
-            console.log('========================================================================================================================');
-            $('.block').append('<div class="title">'+ post.title + '</div>');
-            $('.block').append('<div class="body">'+ post.id + '</div>');
-            comments.forEach(function(comment) {
-                if (post.id == comment.postId) {
-                    $('.block').append('<div class="comment">'+ post.body + comment.postId + '</div>');
-                }
-                // console.log(comments);
-            });
+        posts.forEach(function(postItem) {
+            console.log(postItem);
+            $('.block').append('<div class="title">'+ postItem.title + '</div>');
+            $('.block').append('<div class="body">'+ postItem.body + '</div>');
 
+            comments.forEach(function(commentItem) {
+                console.log(commentItem);
+                if (postItem.id == commentItem.postId) {
+                    $('.block').append('<div class="comment">'+  commentItem.name + '</br>'
+                        + commentItem.email + '</br>'+  commentItem.body  + '</div>');
+                }
+            });
         });
     }
 
