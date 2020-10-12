@@ -32,14 +32,22 @@
         display: none;
     }
     .comments {
-        border: black solid;
     }
-    .comment {
+    .post {
         width: 100%;
         min-height: 50px;
         border-radius: 5px;
         background-color: #a0a4a3;
         margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+    .comment {
+        width: 100%;
+        min-height: 50px;
+        border-radius: 5px;
+        background-color: #04b88d;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
     }
 </style>
 
@@ -52,26 +60,46 @@
 
     function showPosts(posts) {
         posts.forEach(function(postItem) {
-            $('.block').append('<div class="title">'+ postItem.title + '</div>');
-            $('.block').append('<div class="body">'+ postItem.body + '</div>');
-            $('.block').append('<a href="#" class="toggle-comments" data-toggle="0">Показать комментарии</a>');
-            $('.block').append('<div class="comments hide"></div>');
-            $('.block').append('<div>---------------------------------------------------------------------</div>');
+            $('.block').append('<div class="post">' +
+                '<div class="title">'+ postItem.title + '</div>' +
+                '<div class="body">'+ postItem.body + '</div>' +
+                '<a href="#" class="toggle-comments"' +
+                        ' data-id="' + postItem.id + '" data-toggle="0" data-loaded="0">Показать комментарии</a>' +
+                '<div class="comments hide"></div>' +
+            '</div>');
         });
     }
 
     $('.block').on('click', '.toggle-comments', function (event) { // Обработчик на динамически создаваемые ссылки
         event.preventDefault(); // Отключает переход по ссылке
         let $this = $(this);
+        let commentsBlock = $this.closest('.post').find('.comments');
+
         if ($this.data('toggle') == 0) {
-            $this.closest()
+            $this.data('toggle', 1);
+            commentsBlock.removeClass('hide');
+
+            if ($this.data('loaded') == 0) {
+                let postId = $this.data('id');
+
+                $.ajax({
+                    url: '//jsonplaceholder.typicode.com/posts/' + postId + '/comments',
+                }).done(function(comments) {
+                    $this.data('loaded', 1);
+
+                    comments.forEach(function(commentItem) {
+                        commentsBlock.append('<div class="comment">'+  commentItem.name + '</br>'
+                                            + commentItem.email + '</br>'+  commentItem.body  + '</div>');
+                    });
+                })
+            }
+        } else {
+            $this.data('toggle', 0);
+            commentsBlock.addClass('hide');
         }
     });
 
-    // $.ajax({
-    //     url: "//jsonplaceholder.typicode.com/comments",
-    // }).done(function(comments) {
-    // })
+
 
     // function showPostsAndComments(posts, comments) {
     //     posts.forEach(function(postItem) {
